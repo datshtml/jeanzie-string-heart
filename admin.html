@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin — JeanZie String HeArts</title>
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fdf1df; --paper:#fffaf2; --ink:#3a2522; --muted:#8c6f66; --line:#f0dcc2; --soft:#f8e6cc;
+  --red:#e5391a; --red-dark:#c42c10; --lav:#a99df2; --lav-soft:#ece8fd;
+  --ok:#3f7a3a; --warn:#b5730c; --bad:#c42c10; --ok-bg:#e4f0dc; --warn-bg:#fcefd0; --bad-bg:#fbe0d8;
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:'Fredoka',system-ui,sans-serif;font-weight:700}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px}
+.hidden{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--red);color:#fff;padding:11px 20px;font-weight:800;font-size:14px;border-radius:999px;white-space:nowrap}
+.btn:hover{background:var(--red-dark)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.ghost{background:var(--paper);color:var(--ink);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--ink)}
+.btn.dark{background:var(--ink)}
+.btn.danger{background:var(--bad)}
+.btn.sm{padding:7px 12px;font-size:12px}
+.meta{font-size:13px;color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+
+/* Login */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{background:var(--paper);border:1.5px solid var(--line);border-radius:28px;padding:36px 32px;width:100%;max-width:400px;text-align:center;display:flex;flex-direction:column;gap:14px}
+.login-card img{width:120px;height:120px;border-radius:50%;margin:0 auto}
+.login-card h1{font-size:26px;color:var(--red)}
+.field{display:flex;flex-direction:column;gap:6px;text-align:left;font-size:13px;font-weight:800}
+.input{width:100%;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:11px 13px;font-size:15px;font-weight:600;outline:none}
+.input:focus{border-color:var(--lav);box-shadow:0 0 0 3px var(--lav-soft)}
+textarea.input{min-height:110px;resize:vertical}
+.msg{font-size:13px;font-weight:700;border-radius:12px;padding:10px 12px;text-align:left}
+.msg.err{background:var(--bad-bg);color:var(--bad)}
+.msg.info{background:var(--lav-soft);color:#4a3fa3}
+
+/* Top bar */
+.top{position:sticky;top:0;z-index:30;background:rgba(253,241,223,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:66px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:42px;height:42px;border-radius:50%}
+.brand b{font-family:'Fredoka',system-ui,sans-serif;font-size:18px;color:var(--red);line-height:1}
+.brand small{display:block;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.top .actions{margin-left:auto;display:flex;gap:8px}
+
+.head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;padding:28px 0 18px}
+.head h1{font-size:clamp(28px,4vw,40px);line-height:1}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:12px}
+.kpi{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.kpi small{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.kpi div{font-family:'Fredoka',system-ui,sans-serif;font-size:28px;font-weight:700;margin-top:2px}
+.kpi.warn div{color:var(--warn)} .kpi.bad div{color:var(--bad)}
+.panels{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;margin-bottom:12px}
+.panel{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);padding:20px}
+.panel h3{font-size:19px;margin-bottom:12px}
+.bar-row{display:grid;grid-template-columns:130px 1fr 48px;gap:10px;align-items:center;font-size:13px;font-weight:800;margin-bottom:10px}
+.bar{height:14px;background:var(--soft);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px;background:var(--lav)}
+.bar-row b{text-align:right}
+.alerts{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow:auto}
+.alert{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;font-size:13px}
+.alert.low{background:var(--warn-bg)} .alert.out{background:var(--bad-bg)}
+.sample-note{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--lav-soft);border:1.5px dashed var(--lav);border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;font-size:14px;font-weight:700;color:#4a3fa3}
+
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0 12px}
+.section-title h2{font-size:26px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.search{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);padding:8px 14px;border-radius:999px;background:var(--paper);flex:1;min-width:200px}
+.search input{border:none;background:transparent;outline:none;width:100%;font-size:14px}
+.select{border:1.5px solid var(--line);padding:8px 12px;border-radius:999px;background:var(--paper);font-size:13px;font-weight:800}
+.table-wrap{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:920px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:12px;border-bottom:1px solid var(--line);background:var(--soft);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.prod{display:flex;align-items:center;gap:10px}
+.thumb{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;background:var(--soft)}
+.thumb svg{width:86%;height:86%} .thumb img{width:100%;height:100%;object-fit:cover}
+.chips{display:flex;gap:4px;flex-wrap:wrap}
+.sc{font-size:11px;padding:3px 8px;border-radius:999px;background:var(--soft);font-weight:800;white-space:nowrap}
+.sc.z{background:var(--bad-bg);color:var(--bad)}
+.status{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.st-in{background:var(--ok-bg);color:var(--ok)} .st-low{background:var(--warn-bg);color:var(--warn)} .st-out{background:var(--bad-bg);color:var(--bad)}
+.vis{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;background:var(--soft);color:var(--muted);white-space:nowrap}
+.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.log{display:flex;flex-direction:column;font-size:13px;max-height:260px;overflow:auto}
+.log div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.log time{color:var(--muted);white-space:nowrap}
+.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+
+/* Dialogs */
+dialog{border:none;padding:0;width:calc(100% - 24px);max-width:760px;border-radius:24px;margin:auto;background:var(--paper);color:var(--ink);max-height:calc(100vh - 24px)}
+dialog::backdrop{background:rgba(58,37,34,.5)}
+.dlg{padding:26px;display:flex;flex-direction:column;gap:16px;position:relative}
+.dlg h2{font-size:24px;padding-right:40px}
+.close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;font-size:22px;line-height:1}
+.close:hover{background:var(--soft)}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.form-grid .full{grid-column:1/-1}
+.checks{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;font-weight:700}
+.checks input{accent-color:var(--red);width:16px;height:16px;vertical-align:-3px;margin-right:6px}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.photo{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:var(--soft);border:1.5px solid var(--line)}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo .main{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px}
+.photo .ctl{position:absolute;bottom:6px;left:6px;right:6px;display:flex;justify-content:space-between;gap:4px}
+.photo .ctl button{background:rgba(255,250,242,.94);border-radius:8px;width:28px;height:28px;font-weight:800}
+.photo .ctl button:hover{background:#fff}
+.photo.loading{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--muted)}
+.add-photo{aspect-ratio:1;border-radius:14px;border:2px dashed var(--lav);background:var(--lav-soft);color:#4a3fa3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:800;font-size:13px;cursor:pointer;text-align:center;padding:8px}
+.add-photo b{font-size:26px;line-height:1}
+.variants{display:flex;flex-direction:column;gap:8px}
+.vrow{display:grid;grid-template-columns:1fr 120px 36px;gap:8px;align-items:center}
+.stepper{display:flex;align-items:center;gap:4px}
+.stepper button{width:30px;height:38px;border:1.5px solid var(--line);border-radius:10px;font-weight:800;background:#fff}
+.stepper input{text-align:center;padding:9px 4px}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--line);font-size:18px;background:#fff}
+.icon-btn:hover{border-color:var(--bad);color:var(--bad)}
+.dlg-foot{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+.preview{display:flex;align-items:center;gap:12px}
+.preview .thumb{width:64px;height:64px}
+.stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.stock-grid label{border:1.5px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:800}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;font-size:14px;font-weight:700;transition:transform .3s,opacity .3s;z-index:100;opacity:0;pointer-events:none;max-width:calc(100% - 32px)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.err{background:var(--bad);color:#fff}
+
+@media (max-width:980px){.kpis{grid-template-columns:repeat(3,1fr)}.panels{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .form-grid,.settings-grid{grid-template-columns:1fr}
+  .brand span{display:none}
+  .top .actions .btn{padding:7px 12px;font-size:12px}
+  .dlg{padding:20px}
+  .vrow{grid-template-columns:1fr 110px 36px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<section class="login hidden" id="loginView">
+  <form class="login-card" id="loginForm" autocomplete="on">
+    <img src="/images/logo.webp" alt="JeanZie String HeArts">
+    <h1>Admin login</h1>
+    <p class="meta">Manage products, photos and stock for JeanZie String HeArts.</p>
+    <div id="loginInfo"></div>
+    <label class="field">Password
+      <input class="input" type="password" id="password" autocomplete="current-password" required>
+    </label>
+    <div id="loginErr"></div>
+    <button class="btn" type="submit" id="loginBtn">Log in</button>
+    <a href="/" class="meta">← Back to the website</a>
+  </form>
+</section>
+
+<!-- ============ DASHBOARD ============ -->
+<div class="hidden" id="appView">
+  <header class="top">
+    <div class="wrap">
+      <a href="/" target="_blank" rel="noopener" class="brand"><img src="/images/logo-sm.png" alt=""><span><b>JeanZie String HeArts</b><small>Admin</small></span></a>
+      <div class="actions">
+        <a href="/" target="_blank" rel="noopener" class="btn ghost sm">View website ↗</a>
+        <button class="btn dark sm" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding-bottom:48px">
+    <div class="head">
+      <div><span class="eyebrow">Dashboard</span><h1 style="margin-top:6px">Products & stock</h1></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost sm" id="csvBtn">Export CSV</button>
+        <button class="btn" id="addBtn">+ Add product</button>
+      </div>
+    </div>
+
+    <div id="sampleNote"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="panels">
+      <div class="panel"><h3>Needs restocking</h3><div class="alerts" id="alerts"></div></div>
+      <div class="panel"><h3>Pieces by category</h3><div id="catBars"></div></div>
+    </div>
+
+    <div class="section-title"><h2>All products</h2><span class="meta" id="count"></span></div>
+    <div class="tools">
+      <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fq" type="search" placeholder="Search name or ID"></label>
+      <select class="select" id="fcat"></select>
+      <select class="select" id="fstatus">
+        <option value="all">All statuses</option><option value="in">In stock</option><option value="low">Low stock</option><option value="out">Sold out</option><option value="hidden">Hidden</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>On hand</th><th>Status</th><th>Showcase</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <div class="panels" style="margin-top:12px">
+      <div class="panel">
+        <h3>Settings</h3>
+        <form id="settingsForm" class="settings-grid">
+          <label class="field">Low stock warning at (pieces)
+            <input class="input" type="number" min="0" id="sThreshold">
+          </label>
+          <label class="field">Categories (comma separated)
+            <input class="input" id="sCats" placeholder="Amigurumi, Wearables, Bags">
+          </label>
+          <label class="field">Contact link (Facebook, Instagram, Messenger…)
+            <input class="input" id="sContactUrl" placeholder="https://facebook.com/yourpage">
+          </label>
+          <label class="field">Contact button text
+            <input class="input" id="sContactText" placeholder="Message us on Facebook">
+          </label>
+          <div style="grid-column:1/-1;display:flex;justify-content:flex-end"><button class="btn sm" type="submit">Save settings</button></div>
+        </form>
+      </div>
+      <div class="panel"><h3>Recent activity</h3><div class="log" id="log"></div></div>
+    </div>
+  </main>
+</div>
+
+<dialog id="editDlg"></dialog>
+<dialog id="stockDlg" style="max-width:560px"></dialog>
+<dialog id="confirmDlg" style="max-width:440px"></dialog>
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept="image/*" multiple class="hidden">
+
+<script src="/assets/shared.js"></script>
+<script>
+const { art, esc, peso, total, media, tint, isSafeImg, TYPES } = window.JSH;
+const $ = s => document.querySelector(s);
+let products = [], settings = { threshold: 3, categories: [] }, logRows = [];
+const filt = { q: "", cat: "All", status: "all" };
+const status = p => { const t = total(p); return t === 0 ? "out" : t <= settings.threshold ? "low" : "in"; };
+const statusLabel = { in: "In stock", low: "Low stock", out: "Sold out" };
+
+/* ---------- helpers ---------- */
+function toast(msg, err) { const t = $("#toast"); t.textContent = msg; t.classList.toggle("err", !!err); t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), err ? 4200 : 2400); }
+async function api(method, url, body) {
+  const r = await fetch(url, { method, credentials: "same-origin", headers: { "Content-Type": "application/json", "x-jsh": "1" }, body: body ? JSON.stringify(body) : undefined });
+  const d = await r.json().catch(() => ({}));
+  if (r.status === 401 && !url.startsWith("/api/auth")) { showLogin("Your session ended. Please log in again."); throw new Error("Please log in again."); }
+  if (!r.ok) throw new Error(d.error || "Something went wrong.");
+  return d;
+}
+const allCats = () => { const c = [...settings.categories]; products.forEach(p => { if (p.category && !c.includes(p.category)) c.push(p.category); }); return c; };
+
+/* ---------- auth ---------- */
+async function boot() {
+  try {
+    const s = await fetch("/api/auth", { credentials: "same-origin" }).then(r => r.json());
+    if (s.admin) return showApp();
+    const info = [];
+    if (!s.databaseConnected) info.push("The database isn't connected yet. Add Upstash Redis in your Vercel project's Storage tab, then redeploy.");
+    if (!s.passwordSet) info.push("No admin password is set yet. Add ADMIN_PASSWORD in Vercel → Settings → Environment Variables, then redeploy.");
+    showLogin(null, info);
+  } catch { showLogin("Couldn't reach the server. Check your internet connection and refresh."); }
+}
+function showLogin(err, info = []) {
+  $("#appView").classList.add("hidden"); $("#loginView").classList.remove("hidden");
+  $("#loginErr").innerHTML = err ? `<div class="msg err">${esc(err)}</div>` : "";
+  $("#loginInfo").innerHTML = info.map(i => `<div class="msg info">${esc(i)}</div>`).join("");
+  setTimeout(() => $("#password").focus(), 50);
+}
+$("#loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const b = $("#loginBtn"); b.disabled = true; b.textContent = "Checking…"; $("#loginErr").innerHTML = "";
+  try {
+    await api("POST", "/api/auth", { password: $("#password").value });
+    $("#password").value = ""; showApp();
+  } catch (err) { $("#loginErr").innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
+  b.disabled = false; b.textContent = "Log in";
+});
+$("#logoutBtn").addEventListener("click", async () => { try { await api("DELETE", "/api/auth"); } catch {} showLogin(); toast("Logged out"); });
+
+async function showApp() {
+  $("#loginView").classList.add("hidden"); $("#appView").classList.remove("hidden");
+  await refresh();
+}
+async function refresh() {
+  try {
+    const [d, l] = await Promise.all([api("GET", "/api/products?admin=1"), api("GET", "/api/log")]);
+    products = d.products || []; settings = { ...settings, ...(d.settings || {}) }; logRows = l.log || [];
+    render();
+  } catch (e) { toast(e.message, true); }
+}
+
+/* ---------- dashboard ---------- */
+function render() {
+  const units = products.reduce((a, p) => a + total(p), 0);
+  const value = products.reduce((a, p) => a + total(p) * p.price, 0);
+  const low = products.filter(p => status(p) === "low").length, out = products.filter(p => status(p) === "out").length;
+  $("#kpis").innerHTML = `
+    <div class="kpi"><small>Products</small><div>${products.length}</div></div>
+    <div class="kpi"><small>Pieces on hand</small><div>${units.toLocaleString()}</div></div>
+    <div class="kpi"><small>Stock value</small><div>${peso.format(value)}</div></div>
+    <div class="kpi warn"><small>Low stock</small><div>${low}</div></div>
+    <div class="kpi bad"><small>Sold out</small><div>${out}</div></div>`;
+
+  const samples = products.filter(p => p.sample).length;
+  $("#sampleNote").innerHTML = samples ? `<div class="sample-note"><span>🧶 ${samples} sample product${samples > 1 ? "s are" : " is"} showing on your website. Remove them once you've added your own pieces.</span><button class="btn sm" data-remove-samples>Remove sample products</button></div>` : "";
+
+  const att = products.filter(p => status(p) !== "in").sort((a, b) => total(a) - total(b));
+  $("#alerts").innerHTML = att.length ? att.map(p => { const st = status(p); return `<div class="alert ${st}"><div><b>${esc(p.name)}</b><div class="meta">${st === "out" ? "Sold out" : `${total(p)} left`}${p.makeDays ? ` · ~${p.makeDays}d to make` : ""}</div></div><button class="btn sm dark" data-stock="${esc(p.id)}">Restock</button></div>`; }).join("") : `<p class="meta">Everything is well stocked 🧶</p>`;
+
+  const cats = allCats();
+  const byCat = cats.map(c => ({ c, u: products.filter(p => p.category === c).reduce((a, p) => a + total(p), 0) }));
+  const max = Math.max(1, ...byCat.map(x => x.u));
+  $("#catBars").innerHTML = byCat.length ? byCat.map(x => `<div class="bar-row"><span>${esc(x.c)}</span><div class="bar"><i style="width:${x.u / max * 100}%"></i></div><b>${x.u}</b></div>`).join("") : `<p class="meta">No products yet.</p>`;
+
+  const sel = $("#fcat"), cur = filt.cat;
+  sel.innerHTML = ["All", ...cats].map(c => `<option value="${esc(c)}">${c === "All" ? "All categories" : esc(c)}</option>`).join("");
+  sel.value = cats.includes(cur) ? cur : "All";
+
+  renderRows();
+  $("#log").innerHTML = logRows.length ? logRows.map(e => `<div><span>${esc(e.msg)}</span><time>${new Date(e.t).toLocaleString()}</time></div>`).join("") : `<p class="meta">No activity yet.</p>`;
+
+  $("#sThreshold").value = settings.threshold;
+  $("#sCats").value = settings.categories.join(", ");
+  $("#sContactUrl").value = settings.contactUrl || "";
+  $("#sContactText").value = settings.contactText || "";
+}
+
+function renderRows() {
+  const q = filt.q.toLowerCase(), cats = allCats(), order = { out: 0, low: 1, in: 2 };
+  const list = products.filter(p => (filt.cat === "All" || p.category === filt.cat)
+    && (filt.status === "all" || (filt.status === "hidden" ? p.hidden : status(p) === filt.status))
+    && (!q || (p.name + " " + p.id).toLowerCase().includes(q)));
+  $("#count").textContent = `${list.length} of ${products.length}`;
+  $("#rows").innerHTML = list.length ? list.map(p => { const st = status(p); return `<tr>
+    <td><div class="prod"><div class="thumb" style="background:${tint(p.category, cats)}">${media(p)}</div><div><b>${esc(p.name)}</b><div class="meta">${esc(p.id)}${p.sample ? " · sample" : ""}${(p.images || []).length ? ` · ${(p.images || []).length} photo${p.images.length > 1 ? "s" : ""}` : ""}</div></div></div></td>
+    <td>${esc(p.category)}</td>
+    <td>${peso.format(p.price)}</td>
+    <td><div class="chips">${Object.entries(p.variants || {}).map(([k, v]) => `<span class="sc ${v ? "" : "z"}">${esc(k)}: ${v}</span>`).join("")}</div></td>
+    <td><b>${total(p)}</b></td>
+    <td><span class="status st-${st}">${statusLabel[st]}</span></td>
+    <td>${p.hidden ? `<span class="vis">Hidden</span>` : `<span class="status st-in">Visible</span>`}</td>
+    <td><div class="row-actions"><button class="btn sm ghost" data-stock="${esc(p.id)}">Stock</button><button class="btn sm ghost" data-edit="${esc(p.id)}">Edit</button><button class="btn sm ghost" data-del="${esc(p.id)}" aria-label="Remove">Remove</button></div></td>
+  </tr>`; }).join("") : `<tr><td colspan="8" class="meta" style="text-align:center;padding:40px">${products.length ? "No products match." : "No products yet — click “+ Add product” to add your first piece."}</td></tr>`;
+}
+
+/* ---------- photo handling ---------- */
+function loadImg(file) {
+  return new Promise((res, rej) => { const u = URL.createObjectURL(file), i = new Image(); i.onload = () => { res(i); }; i.onerror = () => { URL.revokeObjectURL(u); rej(new Error(`Couldn't read “${file.name}”. Please use a JPG or PNG photo.`)); }; i.src = u; });
+}
+async function shrink(file) {
+  const img = await loadImg(file);
+  const max = 1400, s = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+  const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s);
+  const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(img, 0, 0, c.width, c.height);
+  URL.revokeObjectURL(img.src);
+  let q = .85, data = c.toDataURL("image/jpeg", q);
+  while (data.length > 1.6e6 && q > .4) { q -= .1; data = c.toDataURL("image/jpeg", q); }
+  return data;
+}
+
+/* ---------- product editor ---------- */
+let draft = null, uploadedThisSession = [], uploading = 0;
+function blank() { return { name: "", category: allCats()[0] || "Amigurumi", price: "", description: "", material: "", makeDays: 2, tag: "", isNew: true, hidden: false, variantLabel: "Color", variants: { "": 1 }, images: [], type: "yarn", color: "#e5391a" }; }
+
+function openEditor(id) {
+  const p = id ? products.find(x => x.id === id) : null;
+  draft = JSON.parse(JSON.stringify(p || blank()));
+  draft._id = p ? p.id : null;
+  draft._vrows = Object.entries(draft.variants).map(([k, v]) => ({ k, v }));
+  uploadedThisSession = [];
+  drawEditor();
+  $("#editDlg").showModal();
+}
+function drawEditor() {
+  const d = draft, cats = allCats();
+  if (d.category && !cats.includes(d.category)) cats.push(d.category);
+  $("#editDlg").innerHTML = `<form class="dlg" id="editForm" novalidate>
+    <button type="button" class="close" data-close aria-label="Close">×</button>
+    <h2>${d._id ? "Edit product" : "Add a product"}</h2>
+
+    <div class="field">Photos <span class="meta" style="font-weight:600">First photo is the main one. Up to 6.</span>
+      <div class="photos" id="photos">${photosHtml()}</div>
+    </div>
+
+    <div class="form-grid">
+      <label class="field full">Name *<input class="input" name="name" value="${esc(d.name)}" maxlength="80" required placeholder="e.g. Honey Bear Plush"></label>
+      <label class="field">Price (₱) *<input class="input" name="price" type="number" min="0" step="1" value="${esc(d.price)}" required placeholder="650"></label>
+      <label class="field">Category
+        <select class="input" name="category">${cats.map(c => `<option ${c === d.category ? "selected" : ""}>${esc(c)}</option>`).join("")}<option value="__new">+ New category…</option></select>
+      </label>
+      <label class="field full">Description<textarea class="input" name="description" maxlength="1500" placeholder="Size, what makes it special, care tips…">${esc(d.description)}</textarea></label>
+      <label class="field">Material<input class="input" name="material" value="${esc(d.material)}" maxlength="80" placeholder="Milk cotton yarn"></label>
+      <label class="field">Days to make one<input class="input" name="makeDays" type="number" min="0" max="365" value="${esc(d.makeDays)}"></label>
+      <label class="field">Label on photo (optional)<input class="input" name="tag" value="${esc(d.tag)}" maxlength="24" placeholder="Bestseller"></label>
+      <div class="field">Options<div class="checks" style="padding-top:8px">
+        <label><input type="checkbox" name="isNew" ${d.isNew ? "checked" : ""}>Mark as New</label>
+        <label><input type="checkbox" name="hidden" ${d.hidden ? "checked" : ""}>Hide from website</label>
+      </div></div>
+    </div>
+
+    <div class="field">Stock
+      <div class="form-grid" style="margin-bottom:4px">
+        <label class="field" style="font-weight:700">Options are…
+          <select class="input" name="variantLabel">${["Color", "Size", "Design", "Colorway", "Set"].concat(["Color", "Size", "Design", "Colorway", "Set"].includes(d.variantLabel) ? [] : [d.variantLabel]).map(v => `<option ${v === d.variantLabel ? "selected" : ""}>${esc(v)}</option>`).join("")}</select>
+        </label>
+      </div>
+      <div class="variants" id="vrows">${vrowsHtml()}</div>
+      <div><button type="button" class="btn ghost sm" data-addv>+ Add option</button></div>
+    </div>
+
+    <details class="field" ${d.images.length ? "" : "open"}>
+      <summary style="cursor:pointer">Picture to show when there's no photo</summary>
+      <div class="form-grid" style="margin-top:8px">
+        <label class="field">Illustration<select class="input" name="type">${TYPES.map(t => `<option ${t === d.type ? "selected" : ""}>${t}</option>`).join("")}</select></label>
+        <label class="field">Yarn color<input class="input" name="color" type="color" value="${esc(d.color)}" style="height:46px;padding:4px"></label>
+      </div>
+      <div class="preview" style="margin-top:8px"><div class="thumb" id="artPreview" style="background:var(--soft)">${art(d.type, d.color)}</div><span class="meta">Also used as the color dot on the product card.</span></div>
+    </details>
+
+    <div id="editErr"></div>
+    <div class="dlg-foot">
+      <button type="button" class="btn ghost" data-close>Cancel</button>
+      <button type="submit" class="btn" id="saveBtn">${d._id ? "Save changes" : "Add product"}</button>
+    </div>
+  </form>`;
+}
+function photosHtml() {
+  const imgs = draft.images.map((u, i) => `<div class="photo"><img src="${u}" alt="">${i === 0 ? `<span class="main">Main</span>` : ""}
+    <div class="ctl"><button type="button" data-move="${i}" data-dir="-1" title="Move left" ${i === 0 ? "disabled" : ""}>‹</button><button type="button" data-rmimg="${i}" title="Remove photo">×</button><button type="button" data-move="${i}" data-dir="1" title="Move right" ${i === draft.images.length - 1 ? "disabled" : ""}>›</button></div></div>`).join("");
+  const loading = Array(uploading).fill(`<div class="photo loading">Uploading…</div>`).join("");
+  const add = draft.images.length + uploading < 6 ? `<button type="button" class="add-photo" data-addphoto><b>+</b>Add photos</button>` : "";
+  return imgs + loading + add;
+}
+function vrowsHtml() {
+  return draft._vrows.map((r, i) => `<div class="vrow">
+    <input class="input" data-vk="${i}" value="${esc(r.k)}" placeholder="${esc(draft.variantLabel === "Size" ? "e.g. Medium" : "e.g. Pink")}" maxlength="40">
+    <div class="stepper"><button type="button" data-vstep="${i}" data-d="-1">−</button><input class="input" data-vv="${i}" type="number" min="0" value="${r.v}"><button type="button" data-vstep="${i}" data-d="1">+</button></div>
+    <button type="button" class="icon-btn" data-rmv="${i}" title="Remove option" ${draft._vrows.length === 1 ? "disabled" : ""}>×</button>
+  </div>`).join("");
+}
+function syncForm() {
+  const f = $("#editForm"); if (!f) return;
+  const g = n => f.elements[n];
+  draft.name = g("name").value; draft.price = g("price").value; draft.description = g("description").value;
+  draft.material = g("material").value; draft.makeDays = g("makeDays").value; draft.tag = g("tag").value;
+  draft.isNew = g("isNew").checked; draft.hidden = g("hidden").checked; draft.variantLabel = g("variantLabel").value;
+  if (g("category").value !== "__new") draft.category = g("category").value;
+  draft.type = g("type").value; draft.color = g("color").value;
+  f.querySelectorAll("[data-vk]").forEach(inp => draft._vrows[+inp.dataset.vk].k = inp.value);
+  f.querySelectorAll("[data-vv]").forEach(inp => draft._vrows[+inp.dataset.vv].v = Math.max(0, parseInt(inp.value, 10) || 0));
+}
+const redrawPhotos = () => { const el = $("#photos"); if (el) el.innerHTML = photosHtml(); };
+const redrawVrows = () => { $("#vrows").innerHTML = vrowsHtml(); };
+
+$("#fileInput").addEventListener("change", async e => {
+  const files = [...e.target.files].slice(0, 6 - draft.images.length - uploading); e.target.value = "";
+  for (const file of files) {
+    uploading++; redrawPhotos();
+    try {
+      const data = await shrink(file);
+      const { url } = await api("POST", "/api/image", { data });
+      draft.images.push(url); uploadedThisSession.push(url);
+    } catch (err) { toast(err.message, true); }
+    uploading--; redrawPhotos();
+  }
+});
+
+async function closeEditor(saved) {
+  // Clean up photos that were uploaded but not kept.
+  const keep = saved ? draft.images : [];
+  const orphan = uploadedThisSession.filter(u => !keep.includes(u));
+  uploadedThisSession = [];
+  $("#editDlg").close();
+  for (const u of orphan) { try { await api("DELETE", "/api/image?id=" + u.split("=")[1]); } catch {} }
+}
+
+async function saveEditor() {
+  syncForm();
+  const err = m => { $("#editErr").innerHTML = `<div class="msg err">${esc(m)}</div>`; };
+  if (!draft.name.trim()) return err("Please give the product a name.");
+  if (draft.price === "" || Number(draft.price) < 0) return err("Please enter a price.");
+  if (uploading) return err("Please wait for the photos to finish uploading.");
+  const variants = {};
+  for (const r of draft._vrows) { const k = r.k.trim(); if (!k) continue; variants[k] = (variants[k] || 0) + r.v; }
+  if (!Object.keys(variants).length) return err(`Add at least one ${draft.variantLabel.toLowerCase()} with a name (e.g. "Pink" or "One size").`);
+  const product = { name: draft.name, price: Number(draft.price), category: draft.category, description: draft.description, material: draft.material, makeDays: draft.makeDays, tag: draft.tag, isNew: draft.isNew, hidden: draft.hidden, variantLabel: draft.variantLabel, variants, images: draft.images, type: draft.type, color: draft.color };
+  const b = $("#saveBtn"); b.disabled = true; b.textContent = "Saving…";
+  try {
+    if (draft._id) await api("PUT", "/api/products?id=" + encodeURIComponent(draft._id), { product });
+    else await api("POST", "/api/products", { product });
+    if (!settings.categories.includes(product.category)) await api("POST", "/api/products", { action: "settings", categories: [...settings.categories, product.category] });
+    await closeEditor(true);
+    toast(draft._id ? "Changes saved" : "Product added");
+    refresh();
+  } catch (e) { err(e.message); b.disabled = false; b.textContent = draft._id ? "Save changes" : "Add product"; }
+}
+
+$("#editDlg").addEventListener("submit", e => { e.preventDefault(); saveEditor(); });
+$("#editDlg").addEventListener("cancel", e => { e.preventDefault(); closeEditor(false); });
+$("#editDlg").addEventListener("change", e => {
+  if (e.target.name === "category" && e.target.value === "__new") {
+    const c = (prompt("New category name:") || "").trim().slice(0, 40);
+    syncForm(); if (c) draft.category = c; drawEditor(); return;
+  }
+  if (e.target.name === "type" || e.target.name === "color") { syncForm(); $("#artPreview").innerHTML = art(draft.type, draft.color); }
+  if (e.target.name === "variantLabel") { syncForm(); redrawVrows(); }
+});
+$("#editDlg").addEventListener("input", e => { if (e.target.name === "color") { draft.color = e.target.value; $("#artPreview").innerHTML = art(draft.type, draft.color); } });
+$("#editDlg").addEventListener("click", e => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.hasAttribute("data-close")) return closeEditor(false);
+  if (t.hasAttribute("data-addphoto")) return $("#fileInput").click();
+  if (t.dataset.rmimg !== undefined) { draft.images.splice(+t.dataset.rmimg, 1); return redrawPhotos(); }
+  if (t.dataset.move !== undefined) { const i = +t.dataset.move, j = i + +t.dataset.dir; [draft.images[i], draft.images[j]] = [draft.images[j], draft.images[i]]; return redrawPhotos(); }
+  if (t.hasAttribute("data-addv")) { syncForm(); draft._vrows.push({ k: "", v: 1 }); redrawVrows(); $(`[data-vk="${draft._vrows.length - 1}"]`).focus(); return; }
+  if (t.dataset.rmv !== undefined) { syncForm(); draft._vrows.splice(+t.dataset.rmv, 1); return redrawVrows(); }
+  if (t.dataset.vstep !== undefined) { const inp = $(`[data-vv="${t.dataset.vstep}"]`); inp.value = Math.max(0, (parseInt(inp.value, 10) || 0) + +t.dataset.d); }
+});
+
+/* ---------- quick stock ---------- */
+function openStock(id) {
+  const p = products.find(x => x.id === id); if (!p) return;
+  $("#stockDlg").innerHTML = `<div class="dlg">
+    <button class="close" data-close aria-label="Close">×</button>
+    <div class="preview"><div class="thumb" style="background:${tint(p.category, allCats())}">${media(p)}</div><div><h2 style="padding:0">${esc(p.name)}</h2><p class="meta">Pieces on hand for each ${esc((p.variantLabel || "option").toLowerCase())}${p.makeDays ? ` · about ${p.makeDays} day${p.makeDays === 1 ? "" : "s"} to make one` : ""}</p></div></div>
+    <div class="stock-grid">${Object.entries(p.variants).map(([k, v]) => `<label>${esc(k)}<div class="stepper"><button type="button" data-sstep="-1">−</button><input class="input" type="number" min="0" value="${v}" data-skey="${esc(k)}"><button type="button" data-sstep="1">+</button></div></label>`).join("")}</div>
+    <div class="dlg-foot"><button class="btn ghost" data-sall>+1 to each</button><button class="btn ghost" data-close>Cancel</button><button class="btn" data-ssave="${esc(p.id)}">Save stock</button></div>
+  </div>`;
+  $("#stockDlg").showModal();
+}
+$("#stockDlg").addEventListener("click", async e => {
+  const t = e.target.closest("button"); if (!t) { if (e.target === $("#stockDlg")) $("#stockDlg").close(); return; }
+  if (t.hasAttribute("data-close")) return $("#stockDlg").close();
+  if (t.dataset.sstep) { const inp = t.parentElement.querySelector("input"); inp.value = Math.max(0, (parseInt(inp.value, 10) || 0) + +t.dataset.sstep); return; }
+  if (t.hasAttribute("data-sall")) { $("#stockDlg").querySelectorAll("[data-skey]").forEach(i => i.value = (parseInt(i.value, 10) || 0) + 1); return; }
+  if (t.dataset.ssave) {
+    const variants = {}; $("#stockDlg").querySelectorAll("[data-skey]").forEach(i => variants[i.dataset.skey] = Math.max(0, parseInt(i.value, 10) || 0));
+    t.disabled = true; t.textContent = "Saving…";
+    try { await api("POST", "/api/products", { action: "stock", id: t.dataset.ssave, variants }); $("#stockDlg").close(); toast("Stock updated"); refresh(); }
+    catch (err) { toast(err.message, true); t.disabled = false; t.textContent = "Save stock"; }
+  }
+});
+
+/* ---------- confirm ---------- */
+function confirmBox(title, text, okText, onOk) {
+  $("#confirmDlg").innerHTML = `<div class="dlg"><h2 style="padding:0">${esc(title)}</h2><p>${esc(text)}</p><div class="dlg-foot"><button class="btn ghost" data-close>Cancel</button><button class="btn danger" data-ok>${esc(okText)}</button></div></div>`;
+  $("#confirmDlg").showModal();
+  $("#confirmDlg").onclick = async e => {
+    const t = e.target.closest("button");
+    if (e.target === $("#confirmDlg") || t?.hasAttribute("data-close")) return $("#confirmDlg").close();
+    if (t?.hasAttribute("data-ok")) { t.disabled = true; t.textContent = "Working…"; try { await onOk(); } catch (err) { toast(err.message, true); } $("#confirmDlg").close(); }
+  };
+}
+
+/* ---------- page events ---------- */
+document.addEventListener("click", e => {
+  const t = e.target.closest("button"); if (!t || t.closest("dialog")) return;
+  if (t.id === "addBtn") return openEditor(null);
+  if (t.dataset.edit) return openEditor(t.dataset.edit);
+  if (t.dataset.stock) return openStock(t.dataset.stock);
+  if (t.dataset.del) { const p = products.find(x => x.id === t.dataset.del); return confirmBox(`Remove “${p.name}”?`, "It will disappear from the website and its photos will be deleted. This can't be undone. (Tip: use “Hide from website” in Edit if you only want to hide it for now.)", "Remove product", async () => { await api("DELETE", "/api/products?id=" + encodeURIComponent(p.id)); toast("Product removed"); refresh(); }); }
+  if (t.hasAttribute("data-remove-samples")) return confirmBox("Remove sample products?", "This removes all the example products that came with the website. Your own products stay.", "Remove samples", async () => { const r = await api("POST", "/api/products", { action: "removeSamples" }); toast(`Removed ${r.removed} sample products`); refresh(); });
+});
+$("#fq").addEventListener("input", e => { filt.q = e.target.value; renderRows(); });
+$("#fcat").addEventListener("change", e => { filt.cat = e.target.value; renderRows(); });
+$("#fstatus").addEventListener("change", e => { filt.status = e.target.value; renderRows(); });
+$("#settingsForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const url = $("#sContactUrl").value.trim();
+  if (url && !/^https:\/\//.test(url)) return toast("The contact link must start with https://", true);
+  try {
+    const r = await api("POST", "/api/products", { action: "settings", threshold: $("#sThreshold").value, categories: $("#sCats").value.split(","), contactUrl: url, contactText: $("#sContactText").value });
+    settings = { ...settings, ...r.settings }; toast("Settings saved"); refresh();
+  } catch (err) { toast(err.message, true); }
+});
+$("#csvBtn").addEventListener("click", () => {
+  const rows = [["ID", "Product", "Category", "Price", "Option", "On hand", "Days to make", "Status", "Showcase"]];
+  products.forEach(p => Object.entries(p.variants).forEach(([k, v]) => rows.push([p.id, p.name, p.category, p.price, k, v, p.makeDays, statusLabel[status(p)], p.hidden ? "Hidden" : "Visible"])));
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n")], { type: "text/csv" }));
+  a.download = `jeanzie-stock-${new Date().toISOString().slice(0, 10)}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
+boot();
+</script>
+</body>
+</html>

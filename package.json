@@ -1,0 +1,7 @@
+{
+  "name": "jeanzie-string-hearts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "JeanZie String HeArts — crochet showcase with admin stock management",
+  "engines": { "node": ">=18" }
+}
