@@ -140,6 +140,7 @@ dialog::backdrop{background:rgba(58,37,34,.5)}
 
 @media (max-width:980px){.kpis{grid-template-columns:repeat(3,1fr)}.panels{grid-template-columns:1fr}}
 @media (max-width:640px){
+  .hide-sm{display:none!important}
   .kpis{grid-template-columns:repeat(2,1fr)}
   .form-grid,.settings-grid{grid-template-columns:1fr}
   .brand span{display:none}
@@ -147,7 +148,78 @@ dialog::backdrop{background:rgba(58,37,34,.5)}
   .dlg{padding:20px}
   .vrow{grid-template-columns:1fr 110px 36px}
 }
+
+/* ---------- Labels ---------- */
+.seg{display:inline-flex;background:var(--soft);border-radius:999px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{padding:8px 14px;border-radius:999px;font-weight:800;font-size:13px}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.lbl-list{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow:auto;border:1.5px solid var(--line);border-radius:14px;padding:8px}
+.lbl-row{display:grid;grid-template-columns:44px 1fr 132px;gap:10px;align-items:center;padding:4px}
+.lbl-row .thumb{width:44px;height:44px}
+.lbl-row .stepper input{height:38px}
+.lbl-preview{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px}
+.lbl-preview img{height:150px;border:1.5px solid var(--line);border-radius:8px;background:#fff;flex-shrink:0}
+.lbl-sum{font-weight:800;font-size:14px}
+#printArea{display:none}
+@media print{
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  body>*:not(#printArea){display:none!important}
+  #printArea{display:block!important}
+  #printArea img{display:block;margin:0}
+  #printArea img:not(:last-child){break-after:page;page-break-after:always}
+}
+
+/* ---------- Scanner ---------- */
+#scanDlg{max-width:520px}
+.scan{display:flex;flex-direction:column;gap:12px;padding:16px;position:relative}
+.scan-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-right:40px}
+.scan-top h2{font-size:22px}
+.scan-cam{position:relative;background:#1d1412;border-radius:18px;overflow:hidden;aspect-ratio:4/3;max-height:46vh;width:100%}
+.scan-cam video{width:100%;height:100%;object-fit:cover;display:block}
+.scan-frame{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1;transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,.9);border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.28);transition:border-color .2s}
+.scan-frame.hit{border-color:#7ee07e}
+.scan-frame.bad{border-color:#ff7a66}
+.scan-msg{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#fff;font-weight:800;font-size:13px;text-shadow:0 1px 3px rgba(0,0,0,.6);padding:0 12px}
+.scan-card{border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center;min-height:84px;background:var(--soft)}
+.scan-card.ok{background:var(--ok-bg)} .scan-card.err{background:var(--bad-bg)} .scan-card.ask{background:var(--lav-soft)}
+.scan-card .thumb{width:60px;height:60px}
+.scan-card b{font-size:16px}
+.scan-card .big{font-family:'Fredoka',system-ui,sans-serif;font-size:22px;font-weight:700}
+.pick{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pick button{background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:8px 12px;font-weight:800;font-size:13px}
+.pick button:disabled{opacity:.4;border-color:var(--line)}
+.scan-list{display:flex;flex-direction:column;max-height:180px;overflow:auto;font-size:13px}
+.scan-list div{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.scan-list .undone{opacity:.45;text-decoration:line-through}
+.manual{display:flex;gap:8px}
+@media (max-width:640px){
+  #scanDlg{max-width:none;width:100%;height:100%;max-height:none;border-radius:0}
+  .scan-cam{aspect-ratio:3/4;max-height:48vh}
+  .lbl-row{grid-template-columns:40px 1fr 118px}
+}
+
+/* ---------- Checkout ---------- */
+.cart{display:flex;flex-direction:column;gap:2px;max-height:30vh;overflow:auto;border:1.5px solid var(--line);border-radius:14px;padding:6px;background:#fff}
+.cart-row{display:grid;grid-template-columns:44px 1fr auto 74px;gap:10px;align-items:center;padding:6px 4px;border-bottom:1px dashed var(--line)}
+.cart-row:last-child{border-bottom:none}
+.cart-row .thumb{width:44px;height:44px}
+.cart-row .stepper button{height:32px;width:32px}
+.cart-row .qty{min-width:22px;text-align:center;font-weight:800}
+.line-total{text-align:right}
+.cart-foot{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--paper);padding:10px 0 2px;border-top:1.5px solid var(--line);flex-wrap:wrap}
+.cart-total{font-family:'Fredoka',system-ui,sans-serif;font-size:30px;font-weight:700;line-height:1.1;color:var(--red)}
+.pay{display:flex;flex-direction:column;gap:14px}
+.pay-total{text-align:center;background:var(--soft);border-radius:16px;padding:16px}
+.quick{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.change{font-size:20px;margin-top:10px;font-weight:700}
+.receipt-view{display:flex;flex-direction:column;gap:12px;align-items:center}
+.receipt-view img{width:100%;max-width:300px;border:1.5px solid var(--line);border-radius:6px;box-shadow:0 6px 18px rgba(58,37,34,.12);background:#fff}
+.sale-row{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 4px;border-bottom:1px dashed var(--line);font-size:14px}
+.sale-row:hover{background:var(--soft)}
+.sale-row.undone{opacity:.5}
+#salesList{max-height:320px;overflow:auto}
 </style>
+<style id="printSize"></style>
 </head>
 <body>
 
@@ -173,7 +245,8 @@ dialog::backdrop{background:rgba(58,37,34,.5)}
     <div class="wrap">
       <a href="/" target="_blank" rel="noopener" class="brand"><img src="/logo-sm.png" alt=""><span><b>JeanZie String HeArts</b><small>Admin</small></span></a>
       <div class="actions">
-        <a href="/" target="_blank" rel="noopener" class="btn ghost sm">View website ↗</a>
+        <button class="btn sm" id="scanBtn">📷 Scan / Sell</button>
+        <a href="/" target="_blank" rel="noopener" class="btn ghost sm hide-sm">View website ↗</a>
         <button class="btn dark sm" id="logoutBtn">Log out</button>
       </div>
     </div>
@@ -184,6 +257,7 @@ dialog::backdrop{background:rgba(58,37,34,.5)}
       <div><span class="eyebrow">Dashboard</span><h1 style="margin-top:6px">Products & stock</h1></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn ghost sm" id="csvBtn">Export CSV</button>
+        <button class="btn ghost sm" id="labelsBtn">🏷 Print labels</button>
         <button class="btn" id="addBtn">+ Add product</button>
       </div>
     </div>
@@ -193,6 +267,11 @@ dialog::backdrop{background:rgba(58,37,34,.5)}
     <div class="panels">
       <div class="panel"><h3>Needs restocking</h3><div class="alerts" id="alerts"></div></div>
       <div class="panel"><h3>Pieces by category</h3><div id="catBars"></div></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><h3>Sales</h3><b id="salesToday" style="color:var(--red)"></b></div>
+      <div id="salesList"></div>
     </div>
 
     <div class="section-title"><h2>All products</h2><span class="meta" id="count"></span></div>
@@ -237,6 +316,10 @@ dialog::backdrop{background:rgba(58,37,34,.5)}
 <dialog id="editDlg"></dialog>
 <dialog id="stockDlg" style="max-width:560px"></dialog>
 <dialog id="confirmDlg" style="max-width:440px"></dialog>
+<dialog id="labelDlg"></dialog>
+<dialog id="scanDlg"></dialog>
+<dialog id="receiptDlg" style="max-width:420px"></dialog>
+<div id="printArea"></div>
 <div class="toast" id="toast"></div>
 <input type="file" id="fileInput" accept="image/*" multiple class="hidden">
 
@@ -297,6 +380,7 @@ async function refresh() {
     const [d, l] = await Promise.all([api("GET", "/api/products?admin=1"), api("GET", "/api/log")]);
     products = d.products || []; settings = { ...settings, ...(d.settings || {}) }; logRows = l.log || [];
     render();
+    loadSales();
   } catch (e) { toast(e.message, true); }
 }
 
@@ -343,14 +427,14 @@ function renderRows() {
     && (!q || (p.name + " " + p.id).toLowerCase().includes(q)));
   $("#count").textContent = `${list.length} of ${products.length}`;
   $("#rows").innerHTML = list.length ? list.map(p => { const st = status(p); return `<tr>
-    <td><div class="prod"><div class="thumb" style="background:${tint(p.category, cats)}">${media(p)}</div><div><b>${esc(p.name)}</b><div class="meta">${esc(p.id)}${p.sample ? " · sample" : ""}${(p.images || []).length ? ` · ${(p.images || []).length} photo${p.images.length > 1 ? "s" : ""}` : ""}</div></div></div></td>
+    <td><div class="prod"><div class="thumb" style="background:${tint(p.category, cats)}">${media(p)}</div><div><b>${esc(p.name)}</b><div class="meta">${p.code ? `▮ ${esc(p.code)}` : esc(p.id)}${p.sample ? " · sample" : ""}${(p.images || []).length ? ` · ${(p.images || []).length} photo${p.images.length > 1 ? "s" : ""}` : ""}</div></div></div></td>
     <td>${esc(p.category)}</td>
     <td>${peso.format(p.price)}</td>
     <td><div class="chips">${Object.entries(p.variants || {}).map(([k, v]) => `<span class="sc ${v ? "" : "z"}">${esc(k)}: ${v}</span>`).join("")}</div></td>
     <td><b>${total(p)}</b></td>
     <td><span class="status st-${st}">${statusLabel[st]}</span></td>
     <td>${p.hidden ? `<span class="vis">Hidden</span>` : `<span class="status st-in">Visible</span>`}</td>
-    <td><div class="row-actions"><button class="btn sm ghost" data-stock="${esc(p.id)}">Stock</button><button class="btn sm ghost" data-edit="${esc(p.id)}">Edit</button><button class="btn sm ghost" data-del="${esc(p.id)}" aria-label="Remove">Remove</button></div></td>
+    <td><div class="row-actions"><button class="btn sm ghost" data-stock="${esc(p.id)}">Stock</button><button class="btn sm ghost" data-labels="${esc(p.id)}">Labels</button><button class="btn sm ghost" data-edit="${esc(p.id)}">Edit</button><button class="btn sm ghost" data-del="${esc(p.id)}" aria-label="Remove">Remove</button></div></td>
   </tr>`; }).join("") : `<tr><td colspan="8" class="meta" style="text-align:center;padding:40px">${products.length ? "No products match." : "No products yet — click “+ Add product” to add your first piece."}</td></tr>`;
 }
 
@@ -388,6 +472,7 @@ function drawEditor() {
   $("#editDlg").innerHTML = `<form class="dlg" id="editForm" novalidate>
     <button type="button" class="close" data-close aria-label="Close">×</button>
     <h2>${d._id ? "Edit product" : "Add a product"}</h2>
+    <p class="meta" style="margin-top:-8px">${d.code ? `Barcode: <b>${esc(d.code)}</b> · stays the same even if you edit the product` : "A barcode is created automatically when you save."}</p>
 
     <div class="field">Photos <span class="meta" style="font-weight:600">First photo is the main one. Up to 6.</span>
       <div class="photos" id="photos">${photosHtml()}</div>
@@ -498,11 +583,13 @@ async function saveEditor() {
   const b = $("#saveBtn"); b.disabled = true; b.textContent = "Saving…";
   try {
     if (draft._id) await api("PUT", "/api/products?id=" + encodeURIComponent(draft._id), { product });
-    else await api("POST", "/api/products", { product });
+    let created = null;
+    if (!draft._id) created = (await api("POST", "/api/products", { product })).product;
     if (!settings.categories.includes(product.category)) await api("POST", "/api/products", { action: "settings", categories: [...settings.categories, product.category] });
     await closeEditor(true);
-    toast(draft._id ? "Changes saved" : "Product added");
-    refresh();
+    toast(draft._id ? "Changes saved" : "Product added — barcode ready");
+    await refresh();
+    if (created) offerLabels(created);
   } catch (e) { err(e.message); b.disabled = false; b.textContent = draft._id ? "Save changes" : "Add product"; }
 }
 
@@ -567,6 +654,10 @@ function confirmBox(title, text, okText, onOk) {
 document.addEventListener("click", e => {
   const t = e.target.closest("button"); if (!t || t.closest("dialog")) return;
   if (t.id === "addBtn") return openEditor(null);
+  if (t.id === "scanBtn") return openScanner();
+  if (t.id === "labelsBtn") return openLabels();
+  if (t.dataset.labels) return openLabels(t.dataset.labels);
+  if (t.dataset.sale) return openSale(t.dataset.sale);
   if (t.dataset.edit) return openEditor(t.dataset.edit);
   if (t.dataset.stock) return openStock(t.dataset.stock);
   if (t.dataset.del) { const p = products.find(x => x.id === t.dataset.del); return confirmBox(`Remove “${p.name}”?`, "It will disappear from the website and its photos will be deleted. This can't be undone. (Tip: use “Hide from website” in Edit if you only want to hide it for now.)", "Remove product", async () => { await api("DELETE", "/api/products?id=" + encodeURIComponent(p.id)); toast("Product removed"); refresh(); }); }
@@ -585,12 +676,644 @@ $("#settingsForm").addEventListener("submit", async e => {
   } catch (err) { toast(err.message, true); }
 });
 $("#csvBtn").addEventListener("click", () => {
-  const rows = [["ID", "Product", "Category", "Price", "Option", "On hand", "Days to make", "Status", "Showcase"]];
-  products.forEach(p => Object.entries(p.variants).forEach(([k, v]) => rows.push([p.id, p.name, p.category, p.price, k, v, p.makeDays, statusLabel[status(p)], p.hidden ? "Hidden" : "Visible"])));
+  const rows = [["ID", "Barcode", "Product", "Category", "Price", "Option", "On hand", "Days to make", "Status", "Showcase"]];
+  products.forEach(p => Object.entries(p.variants).forEach(([k, v]) => rows.push([p.id, p.code || "", p.name, p.category, p.price, k, v, p.makeDays, statusLabel[status(p)], p.hidden ? "Hidden" : "Visible"])));
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n")], { type: "text/csv" }));
   a.download = `jeanzie-stock-${new Date().toISOString().slice(0, 10)}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 });
+
+/* =====================================================================
+   BARCODES — one QR code per product, printed on 57×30mm label paper
+   ===================================================================== */
+const LIBS = {
+  qr: { src: "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js", sri: "sha384-8FWZA6BGMXhsfO+BLtrJK0We6gg5o1JyO8xQm6peWDEUs17ACA5ziE/NIAkl9z2k", test: () => window.qrcode },
+  jsqr: { src: "https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js", sri: "sha384-b5Ya4Bq3qCyz39m2ISh+4DxjAIljdeFwK/BsXLuj9gugaNwAcj/ia15fxNZL9Nlx", test: () => window.jsQR }
+};
+const libLoading = {};
+function loadLib(name) {
+  const L = LIBS[name];
+  if (L.test()) return Promise.resolve();
+  return libLoading[name] || (libLoading[name] = new Promise((res, rej) => {
+    const s = document.createElement("script");
+    s.src = L.src; s.integrity = L.sri; s.crossOrigin = "anonymous";
+    s.onload = () => res(); s.onerror = () => { delete libLoading[name]; rej(new Error("Couldn't load the barcode tool. Check your internet connection and try again.")); };
+    document.head.appendChild(s);
+  }));
+}
+
+const DPMM = 8;                  // 8 dots per mm ≈ 203 dpi, the standard thermal printer resolution
+const LW = 57 * DPMM, LH = 30 * DPMM; // 456 × 240 px
+const labelState = { per: 3, price: true, cut: true, q: "", qty: {} };
+let labelPages = [];
+
+function qrMatrix(code) {
+  const q = window.qrcode(0, "M");
+  q.addData(code, "Alphanumeric");
+  q.make();
+  const n = q.getModuleCount();
+  return { n, dark: (r, c) => q.isDark(r, c) };
+}
+function drawQR(ctx, code, x, y, mod) {
+  const m = qrMatrix(code);
+  ctx.fillStyle = "#000";
+  for (let r = 0; r < m.n; r++) for (let c = 0; c < m.n; c++) if (m.dark(r, c)) ctx.fillRect(x + c * mod, y + r * mod, mod, mod);
+  return m.n * mod;
+}
+function fitText(ctx, text, maxW) {
+  if (ctx.measureText(text).width <= maxW) return text;
+  let t = text;
+  while (t.length > 1 && ctx.measureText(t + "…").width > maxW) t = t.slice(0, -1);
+  return t.trimEnd() + "…";
+}
+function wrap2(ctx, text, maxW) {
+  const words = String(text).split(/\s+/);
+  let line1 = "";
+  while (words.length) {
+    const test = line1 ? line1 + " " + words[0] : words[0];
+    if (ctx.measureText(test).width > maxW && line1) break;
+    line1 = test; words.shift();
+  }
+  if (ctx.measureText(line1).width > maxW) return [fitText(ctx, line1 + " " + words.join(" "), maxW)];
+  return words.length ? [line1, fitText(ctx, words.join(" "), maxW)] : [line1];
+}
+const FONT = "Arial, Helvetica, 'Noto Sans', sans-serif";
+const priceText = p => "₱" + Number(p.price || 0).toLocaleString("en-PH");
+
+function drawLabel(items, per, opts) {
+  const c = document.createElement("canvas"); c.width = LW; c.height = LH;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, LW, LH);
+  ctx.fillStyle = "#000"; ctx.textBaseline = "alphabetic";
+  if (per === 3) {
+    const cw = LW / 3;
+    items.forEach((p, i) => {
+      const x0 = i * cw, mod = qrMatrix(p.code).n <= 21 ? 5 : 4;
+      const size = qrMatrix(p.code).n * mod;
+      drawQR(ctx, p.code, Math.round(x0 + (cw - size) / 2), 10, mod);
+      ctx.textAlign = "center";
+      let y = 10 + size + 17;
+      ctx.font = `bold 15px ${FONT}`;
+      for (const line of wrap2(ctx, p.name, cw - 12)) { ctx.fillText(line, x0 + cw / 2, y); y += 17; }
+      if (opts.price) { ctx.font = `bold 19px ${FONT}`; ctx.fillText(priceText(p), x0 + cw / 2, y + 3); y += 22; }
+      ctx.font = `12px ${FONT}`; ctx.fillText(p.code, x0 + cw / 2, Math.min(LH - 6, y + 2));
+    });
+  } else {
+    const cw = LW / 2, ch = LH / 2;
+    items.forEach((p, i) => {
+      const x0 = (i % 2) * cw, y0 = Math.floor(i / 2) * ch;
+      const mod = qrMatrix(p.code).n <= 21 ? 4 : 3, size = qrMatrix(p.code).n * mod;
+      drawQR(ctx, p.code, x0 + 12, Math.round(y0 + (ch - size) / 2), mod);
+      const tx = x0 + 12 + size + 8, tw = cw - (tx - x0) - 6;
+      ctx.textAlign = "left";
+      let y = y0 + 30;
+      ctx.font = `bold 15px ${FONT}`;
+      for (const line of wrap2(ctx, p.name, tw)) { ctx.fillText(line, tx, y); y += 17; }
+      if (opts.price) { ctx.font = `bold 19px ${FONT}`; ctx.fillText(fitText(ctx, priceText(p), tw), tx, y + 4); }
+      ctx.font = `12px ${FONT}`; ctx.fillText(p.code, tx, y0 + ch - 12);
+    });
+  }
+  if (opts.cut) {
+    ctx.strokeStyle = "#000"; ctx.lineWidth = 2; ctx.setLineDash([6, 6]);
+    ctx.beginPath();
+    if (per === 3) { [1, 2].forEach(k => { ctx.moveTo(k * LW / 3, 0); ctx.lineTo(k * LW / 3, LH); }); }
+    else { ctx.moveTo(LW / 2, 0); ctx.lineTo(LW / 2, LH); ctx.moveTo(0, LH / 2); ctx.lineTo(LW, LH / 2); }
+    ctx.stroke();
+  }
+  return c.toDataURL("image/png");
+}
+
+function labelItems() {
+  const out = [];
+  for (const p of products) { const n = labelState.qty[p.id] || 0; for (let i = 0; i < n; i++) out.push(p); }
+  return out;
+}
+
+async function openLabels(onlyId) {
+  labelState.q = "";
+  labelState.qty = {};
+  if (onlyId) { const p = products.find(x => x.id === onlyId); labelState.qty[onlyId] = Math.max(1, total(p)); }
+  drawLabelDlg();
+  $("#labelDlg").showModal();
+  try { await loadLib("qr"); renderLabelPreview(); }
+  catch (e) { $("#lblPreview").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+}
+
+function drawLabelDlg() {
+  const st = labelState;
+  $("#labelDlg").innerHTML = `<div class="dlg">
+    <button class="close" data-close aria-label="Close">×</button>
+    <h2>Print barcode labels</h2>
+    <p class="meta" style="margin-top:-8px">For 57 × 30 mm label paper. Each label is cut into small stickers — one sticker per piece.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <div class="seg" role="group" aria-label="Stickers per label">
+        <button data-per="3" class="${st.per === 3 ? "on" : ""}">3 per label · 19×30mm</button>
+        <button data-per="4" class="${st.per === 4 ? "on" : ""}">4 per label · 28×15mm</button>
+      </div>
+      <div class="checks"><label><input type="checkbox" data-opt="price" ${st.price ? "checked" : ""}>Price</label><label><input type="checkbox" data-opt="cut" ${st.cut ? "checked" : ""}>Cut lines</label></div>
+    </div>
+    <div class="tools" style="margin:0">
+      <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="lblQ" type="search" placeholder="Find a product" value="${esc(st.q)}"></label>
+      <button class="btn ghost sm" data-lfill>Use stock counts</button>
+      <button class="btn ghost sm" data-lclear>Clear</button>
+    </div>
+    <div class="lbl-list" id="lblList">${labelRowsHtml()}</div>
+    <div class="lbl-sum" id="lblSum"></div>
+    <div class="lbl-preview" id="lblPreview"></div>
+    <div class="dlg-foot">
+      <button class="btn ghost" data-lsave>Save as images</button>
+      <button class="btn" data-lprint>🖨 Print / Save PDF</button>
+    </div>
+  </div>`;
+}
+function labelRowsHtml() {
+  const q = labelState.q.toLowerCase(), cats = allCats();
+  const list = products.filter(p => !q || (p.name + " " + (p.code || "")).toLowerCase().includes(q));
+  return list.length ? list.map(p => `<div class="lbl-row">
+      <div class="thumb" style="background:${tint(p.category, cats)}">${media(p)}</div>
+      <div><b>${esc(p.name)}</b><div class="meta">${esc(p.code || "")} · ${total(p)} in stock</div></div>
+      <div class="stepper"><button type="button" data-lstep="${esc(p.id)}" data-d="-1">−</button><input class="input" type="number" min="0" max="500" value="${labelState.qty[p.id] || 0}" data-lqty="${esc(p.id)}" aria-label="Number of stickers"><button type="button" data-lstep="${esc(p.id)}" data-d="1">+</button></div>
+    </div>`).join("") : `<p class="meta" style="padding:12px">No products found.</p>`;
+}
+let previewTimer;
+function renderLabelPreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(() => {
+    const items = labelItems(), per = labelState.per;
+    labelPages = [];
+    for (let i = 0; i < items.length; i += per) labelPages.push(items.slice(i, i + per));
+    const n = items.length, pages = labelPages.length;
+    $("#lblSum").textContent = n ? `${n} sticker${n === 1 ? "" : "s"} → ${pages} label${pages === 1 ? "" : "s"} of 57×30mm` : "Choose how many stickers you need for each product.";
+    if (!window.qrcode) return;
+    labelPages._img = labelPages.map(pg => drawLabel(pg, per, labelState));
+    $("#lblPreview").innerHTML = labelPages._img.slice(0, 12).map(u => `<img src="${u}" alt="Label preview">`).join("") + (pages > 12 ? `<span class="meta" style="align-self:center">+${pages - 12} more</span>` : "");
+  }, 120);
+}
+
+$("#labelDlg").addEventListener("click", async e => {
+  if (e.target === $("#labelDlg")) return $("#labelDlg").close();
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.hasAttribute("data-close")) return $("#labelDlg").close();
+  if (t.dataset.per) { labelState.per = +t.dataset.per; document.querySelectorAll("[data-per]").forEach(b => b.classList.toggle("on", b === t)); return renderLabelPreview(); }
+  if (t.dataset.lstep) { const id = t.dataset.lstep; labelState.qty[id] = Math.max(0, Math.min(500, (labelState.qty[id] || 0) + +t.dataset.d)); $(`[data-lqty="${CSS.escape(id)}"]`).value = labelState.qty[id]; return renderLabelPreview(); }
+  if (t.hasAttribute("data-lfill")) { products.forEach(p => labelState.qty[p.id] = total(p)); $("#lblList").innerHTML = labelRowsHtml(); return renderLabelPreview(); }
+  if (t.hasAttribute("data-lclear")) { labelState.qty = {}; $("#lblList").innerHTML = labelRowsHtml(); return renderLabelPreview(); }
+  if (t.hasAttribute("data-lprint") || t.hasAttribute("data-lsave")) {
+    try { await loadLib("qr"); } catch (err) { return toast(err.message, true); }
+    clearTimeout(previewTimer);
+    const items = labelItems(), per = labelState.per;
+    if (!items.length) return toast("Add at least one sticker first.", true);
+    const pages = []; for (let i = 0; i < items.length; i += per) pages.push(drawLabel(items.slice(i, i + per), per, labelState));
+    if (t.hasAttribute("data-lprint")) {
+      $("#labelDlg").close();
+      await printImages(pages, 57, 30);
+    } else {
+      for (let i = 0; i < pages.length; i++) {
+        const a = document.createElement("a"); a.href = pages[i]; a.download = `jeanzie-labels-${String(i + 1).padStart(2, "0")}.png`;
+        document.body.appendChild(a); a.click(); a.remove();
+        await new Promise(r => setTimeout(r, 350));
+      }
+      toast(`Saved ${pages.length} label image${pages.length === 1 ? "" : "s"}`);
+    }
+  }
+});
+$("#labelDlg").addEventListener("input", e => {
+  if (e.target.id === "lblQ") { labelState.q = e.target.value; $("#lblList").innerHTML = labelRowsHtml(); return; }
+  if (e.target.dataset.lqty) { labelState.qty[e.target.dataset.lqty] = Math.max(0, Math.min(500, parseInt(e.target.value, 10) || 0)); renderLabelPreview(); }
+});
+$("#labelDlg").addEventListener("change", e => {
+  if (e.target.dataset.opt) { labelState[e.target.dataset.opt] = e.target.checked; renderLabelPreview(); }
+});
+
+function offerLabels(p) {
+  const n = Math.max(1, total(p));
+  $("#confirmDlg").innerHTML = `<div class="dlg"><h2 style="padding:0">Barcode ready ✓</h2>
+    <div class="preview"><div class="thumb" style="background:${tint(p.category, allCats())}">${media(p)}</div><div><b>${esc(p.name)}</b><div class="meta">Barcode ${esc(p.code || "")}</div></div></div>
+    <p>Print stickers for this product now? You have ${total(p)} in stock.</p>
+    <div class="dlg-foot"><button class="btn ghost" data-close>Later</button><button class="btn" data-ok>🏷 Print ${n} sticker${n === 1 ? "" : "s"}</button></div></div>`;
+  $("#confirmDlg").showModal();
+  $("#confirmDlg").onclick = e => {
+    const t = e.target.closest("button");
+    if (e.target === $("#confirmDlg") || t?.hasAttribute("data-close")) return $("#confirmDlg").close();
+    if (t?.hasAttribute("data-ok")) { $("#confirmDlg").close(); openLabels(p.id); }
+  };
+}
+
+/* =====================================================================
+   SCANNER / CHECKOUT — scan stickers into a cart, then complete the sale
+   ===================================================================== */
+const scan = { stream: null, timer: null, detector: null, mode: "sell", step: "cart", busy: false, pending: null, seen: {}, log: [], audio: null, canvas: null, lastBad: 0, cart: [], method: "Cash", cash: "", sale: null };
+const PAY = ["Cash", "GCash", "Card", "Other"];
+const money = n => "₱" + Number(n || 0).toLocaleString("en-PH");
+const cartTotal = () => scan.cart.reduce((a, l) => a + l.price * l.qty, 0);
+const cartCount = () => scan.cart.reduce((a, l) => a + l.qty, 0);
+const inCart = (id, v) => scan.cart.filter(l => l.id === id && l.variant === v).reduce((a, l) => a + l.qty, 0);
+
+async function openScanner() {
+  scan.log = []; scan.pending = null; scan.busy = false; scan.seen = {}; scan.step = "cart"; scan.sale = null;
+  drawScanner();
+  $("#scanDlg").showModal();
+  try { scan.audio = new (window.AudioContext || window.webkitAudioContext)(); } catch { scan.audio = null; }
+  await startCamera();
+}
+
+function drawScanner() {
+  const sell = scan.mode === "sell";
+  $("#scanDlg").innerHTML = `<div class="scan">
+    <button class="close" data-sclose aria-label="Close">×</button>
+    <div class="scan-top"><h2>${sell ? "Checkout" : "Restock"}</h2>
+      <div class="seg" role="group" aria-label="Scan mode">
+        <button data-smode="sell" class="${sell ? "on" : ""}">🛒 Sell</button>
+        <button data-smode="restock" class="${sell ? "" : "on"}">📦 Restock +1</button>
+      </div>
+    </div>
+    <div id="scanBody"></div>
+  </div>`;
+  drawScanBody();
+}
+
+function camHtml() {
+  return `<div class="scan-cam"><video id="scanVideo" playsinline muted autoplay></video><div class="scan-frame" id="scanFrame"></div><div class="scan-msg" id="scanMsg">${scan.stream ? "Point at a sticker" : "Starting camera…"}</div></div>
+    <div class="scan-card" id="scanCard"><div><b>${scan.mode === "sell" ? "Scan each piece the customer is buying" : "Scan each new piece to add it to stock"}</b><div class="meta">${scan.mode === "sell" ? "Items go into the cart. Stock only changes when you complete the sale." : "Each scan adds 1 to the stock right away."}</div></div></div>
+    <form class="manual" id="manualForm"><input class="input" id="manualCode" placeholder="Or type the code, e.g. JSH7K3P9Q" autocomplete="off" autocapitalize="characters"><button class="btn ghost" type="submit">Add</button></form>`;
+}
+
+function drawScanBody() {
+  const body = $("#scanBody"); if (!body) return;
+  const video = $("#scanVideo");
+  if (scan.mode === "restock") {
+    body.innerHTML = camHtml() + `<div><div class="label meta" id="scanTotals" style="font-weight:800;margin-bottom:4px"></div><div class="scan-list" id="scanList"></div></div>`;
+    attachVideo(); renderScanList(); return;
+  }
+  if (scan.step === "cart") {
+    body.innerHTML = camHtml() + `<div class="cart" id="cart"></div>
+      <div class="cart-foot"><div><span class="meta" id="cartCount"></span><div class="cart-total" id="cartTotal">₱0</div></div>
+        <div style="display:flex;gap:8px"><button class="btn ghost" data-cclear>Clear</button><button class="btn" data-ccheckout>Checkout →</button></div></div>`;
+    attachVideo(); renderCart(); return;
+  }
+  if (scan.step === "pay") {
+    const t = cartTotal();
+    body.innerHTML = `<div class="pay">
+      <div class="pay-total"><span class="meta">Total · ${cartCount()} item${cartCount() === 1 ? "" : "s"}</span><div class="cart-total" style="font-size:40px">${money(t)}</div></div>
+      <div class="field">Payment<div class="seg">${PAY.map(m => `<button data-pay="${m}" class="${scan.method === m ? "on" : ""}">${m}</button>`).join("")}</div></div>
+      <div id="cashBox" class="${scan.method === "Cash" ? "" : "hidden"}">
+        <label class="field">Cash received (optional)<input class="input" id="cashIn" type="number" min="0" inputmode="numeric" value="${esc(scan.cash)}" placeholder="${t}"></label>
+        <div class="quick">${[...new Set([t, Math.ceil(t / 100) * 100, Math.ceil(t / 500) * 500, 1000, 2000].filter(v => v >= t))].slice(0, 4).map(v => `<button class="btn ghost sm" data-cashq="${v}">${v === t ? "Exact" : money(v)}</button>`).join("")}</div>
+        <div class="change" id="changeOut"></div>
+      </div>
+      <div id="payErr"></div>
+      <div class="dlg-foot"><button class="btn ghost" data-cback>← Back to cart</button><button class="btn" data-cdone>✓ Complete sale</button></div>
+    </div>`;
+    updateChange(); stopCamera(); return;
+  }
+  if (scan.step === "receipt") {
+    body.innerHTML = `<div class="receipt-view"><div class="msg info" style="text-align:center">✓ Sale saved · stock updated</div>
+      <img id="rcptImg" alt="Receipt">
+      <div class="dlg-foot" style="justify-content:center"><button class="btn ghost" data-rsave>Save image</button><button class="btn ghost" data-rprint>🖨 Print</button><button class="btn" data-cnew>New sale</button></div></div>`;
+    stopCamera();
+    $("#rcptImg").src = drawReceipt(scan.sale);
+  }
+}
+
+function attachVideo() {
+  if (scan.stream) { const v = $("#scanVideo"); v.srcObject = scan.stream; v.play().catch(() => {}); }
+  else if ($("#scanDlg").open) startCamera();
+}
+
+async function startCamera() {
+  const msg = t => { const m = $("#scanMsg"); if (m) m.textContent = t; };
+  if (scan.stream || scan.starting) return;
+  if (!$("#scanVideo")) return;
+  if (!navigator.mediaDevices?.getUserMedia) { msg("This browser can't use the camera. Type the code below instead."); return; }
+  scan.starting = true;
+  try {
+    scan.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+  } catch (e) {
+    scan.starting = false;
+    msg(e.name === "NotAllowedError" ? "Camera blocked. Allow camera access for this site in your browser settings, then reopen Scan." : "No camera found. Type the code below instead.");
+    return;
+  }
+  scan.starting = false;
+  if (!$("#scanDlg").open || !$("#scanVideo")) return stopCamera();
+  const v = $("#scanVideo"); v.srcObject = scan.stream;
+  try { await v.play(); } catch {}
+  if (!scan.detector && "BarcodeDetector" in window) {
+    try { const f = await window.BarcodeDetector.getSupportedFormats(); if (f.includes("qr_code")) scan.detector = new window.BarcodeDetector({ formats: ["qr_code"] }); } catch {}
+  }
+  if (!scan.detector) { try { await loadLib("jsqr"); } catch (e) { msg(e.message); return; } }
+  msg("Point at a sticker");
+  loopScan();
+}
+function stopCamera() {
+  clearTimeout(scan.timer); scan.timer = null;
+  if (scan.stream) scan.stream.getTracks().forEach(t => t.stop());
+  scan.stream = null;
+}
+async function detectOnce(v) {
+  if (!v || v.readyState < 2 || !v.videoWidth) return null;
+  if (scan.detector) { const r = await scan.detector.detect(v); return r[0]?.rawValue || null; }
+  const side = Math.min(v.videoWidth, v.videoHeight) * 0.85, S = 480;
+  const c = scan.canvas || (scan.canvas = Object.assign(document.createElement("canvas"), { width: S, height: S }));
+  const ctx = c.getContext("2d", { willReadFrequently: true });
+  ctx.drawImage(v, (v.videoWidth - side) / 2, (v.videoHeight - side) / 2, side, side, 0, 0, S, S);
+  const r = window.jsQR(ctx.getImageData(0, 0, S, S).data, S, S, { inversionAttempts: "dontInvert" });
+  return r?.data || null;
+}
+async function loopScan() {
+  clearTimeout(scan.timer);
+  if (!scan.stream || !$("#scanDlg").open) return;
+  try { const code = await detectOnce($("#scanVideo")); if (code) onCode(code); } catch {}
+  scan.timer = setTimeout(loopScan, scan.detector ? 90 : 140);
+}
+function beep(ok) {
+  try {
+    if (navigator.vibrate) navigator.vibrate(ok ? 60 : [80, 60, 80]);
+    const a = scan.audio; if (!a) return;
+    if (a.state === "suspended") a.resume();
+    const o = a.createOscillator(), g = a.createGain();
+    o.type = "square"; o.frequency.value = ok ? 1250 : 320;
+    g.gain.value = 0.08; o.connect(g); g.connect(a.destination);
+    o.start(); o.stop(a.currentTime + (ok ? 0.09 : 0.3));
+  } catch {}
+}
+function flash(cls) { const f = $("#scanFrame"); if (!f) return; f.classList.remove("hit", "bad"); f.classList.add(cls); setTimeout(() => f.classList.remove(cls), 500); }
+
+function onCode(raw) {
+  const code = String(raw).trim().toUpperCase();
+  if (scan.busy || scan.pending) return;
+  const now = Date.now(), prev = scan.seen[code];
+  scan.seen[code] = now;
+  if (prev && now - prev < 1200) return; // same sticker still in view — don't count twice
+  if (!/^JSH[0-9A-Z]{6}$/.test(code)) {
+    if (now - scan.lastBad > 2500) { scan.lastBad = now; beep(false); flash("bad"); showCard("err", null, "That's not a JeanZie sticker", ""); }
+    return;
+  }
+  if (scan.mode === "sell") addToCart(code); else doRestock(code);
+}
+
+/* ---------- Sell mode: cart ---------- */
+async function addToCart(code, variant) {
+  let p = products.find(x => x.code === code);
+  if (!p) { try { await refresh(); } catch {} p = products.find(x => x.code === code); }
+  if (!p) { beep(false); flash("bad"); return showCard("err", null, "Unknown sticker", "This barcode isn't linked to any product. It may belong to a removed product."); }
+  const names = Object.keys(p.variants), multi = names.length > 1;
+  const avail = n => p.variants[n] - inCart(p.id, n);
+  if (variant === undefined) {
+    const ok = names.filter(n => avail(n) > 0);
+    if (!ok.length) { beep(false); flash("bad"); return showCard("err", p, `${p.name}: none left`, total(p) ? "All pieces in stock are already in the cart." : "This product is sold out in your stock list. Update the stock if you have more."); }
+    if (names.length === 1 || ok.length === 1) variant = ok[0];
+    else { beep(true); return askVariant(p, code); }
+  }
+  if (avail(variant) <= 0) { beep(false); flash("bad"); return showCard("err", p, `${p.name}${multi ? " — " + variant : ""}: none left`, "Update the stock if you have more."); }
+  const line = scan.cart.find(l => l.id === p.id && l.variant === variant);
+  if (line) line.qty++; else scan.cart.unshift({ id: p.id, code, name: p.name, variant, multi, price: p.price, qty: 1 });
+  beep(true); flash("hit");
+  showCard("ok", p, `+ ${p.name}${multi ? " — " + variant : ""}`, `<span class="big">${money(p.price)}</span>`);
+  renderCart(variant && line ? null : 0);
+}
+
+function askVariant(p, code) {
+  scan.pending = { code, id: p.id };
+  const sell = scan.mode === "sell";
+  const avail = n => sell ? p.variants[n] - inCart(p.id, n) : 1;
+  showCard("ask", p, `${esc(p.name)}: which ${esc((p.variantLabel || "option").toLowerCase())}?`,
+    `<div class="pick">${Object.entries(p.variants).map(([k, v]) => `<button data-pickv="${esc(k)}" ${avail(k) <= 0 ? "disabled" : ""}>${esc(k)} · ${v}</button>`).join("")}<button data-pickcancel style="border-style:dashed">Cancel</button></div>`, true);
+}
+
+function renderCart() {
+  const c = $("#cart"); if (!c) return;
+  c.innerHTML = scan.cart.length ? scan.cart.map((l, i) => {
+    const p = products.find(x => x.id === l.id);
+    return `<div class="cart-row">
+      <div class="thumb" style="background:${p ? tint(p.category, allCats()) : "var(--soft)"}">${p ? media(p) : ""}</div>
+      <div style="min-width:0"><b>${esc(l.name)}</b><div class="meta">${l.multi ? esc(l.variant) + " · " : ""}${money(l.price)}</div></div>
+      <div class="stepper"><button data-cq="${i}" data-d="-1" aria-label="Less">−</button><span class="qty">${l.qty}</span><button data-cq="${i}" data-d="1" aria-label="More">+</button></div>
+      <b class="line-total">${money(l.price * l.qty)}</b>
+    </div>`;
+  }).join("") : `<p class="meta" style="text-align:center;padding:14px">Cart is empty — scan a sticker to start.</p>`;
+  $("#cartTotal").textContent = money(cartTotal());
+  $("#cartCount").textContent = `${cartCount()} item${cartCount() === 1 ? "" : "s"}`;
+}
+
+function updateChange() {
+  const box = $("#changeOut"); if (!box) return;
+  const t = cartTotal(), cash = parseInt(scan.cash, 10) || 0;
+  box.innerHTML = !cash ? "" : cash < t ? `<span style="color:var(--bad)">Short by ${money(t - cash)}</span>` : `Change: <b>${money(cash - t)}</b>`;
+}
+
+async function completeSale(btn) {
+  const t = cartTotal(), cash = scan.method === "Cash" ? (parseInt(scan.cash, 10) || 0) : 0;
+  if (cash && cash < t) { $("#payErr").innerHTML = `<div class="msg err">Cash received is less than the total.</div>`; return; }
+  btn.disabled = true; btn.textContent = "Saving…";
+  try {
+    const d = await api("POST", "/api/products", { action: "sale", items: scan.cart.map(l => ({ id: l.id, variant: l.variant, qty: l.qty })), method: scan.method, cash });
+    scan.sale = d.sale; scan.cart = []; scan.cash = ""; scan.step = "receipt";
+    beep(true); drawScanBody(); refresh();
+  } catch (e) {
+    $("#payErr").innerHTML = `<div class="msg err">${esc(e.message)}</div>`;
+    btn.disabled = false; btn.textContent = "✓ Complete sale";
+  }
+}
+
+/* ---------- Restock mode: +1 per scan, saved right away ---------- */
+async function doRestock(code, variant) {
+  scan.busy = true;
+  try {
+    const r = await fetch("/api/products", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json", "x-jsh": "1" }, body: JSON.stringify({ action: "scan", code, delta: 1, variant }) });
+    const d = await r.json().catch(() => ({}));
+    if (r.status === 401) { $("#scanDlg").close(); showLogin("Your session ended. Please log in again."); return; }
+    if (d.product) replaceProduct(d.product);
+    if (!r.ok) { beep(false); flash("bad"); showCard("err", d.product, d.error || "Something went wrong.", ""); return; }
+    if (d.needVariant) { beep(true); askVariant(d.product, code); return; }
+    beep(true); flash("hit");
+    const p = d.product, multi = Object.keys(p.variants).length > 1;
+    scan.log.unshift({ code, name: p.name, variant: d.variant, multi, before: d.before, after: d.after, undone: false });
+    showCard("ok", p, `Restocked: ${p.name}${multi ? " — " + d.variant : ""}`, `<span class="big">${d.before} → ${d.after}</span> in stock`);
+    renderScanList();
+  } catch {
+    beep(false); showCard("err", null, "No internet connection", "The scan wasn't saved. Try again.");
+  } finally { scan.busy = false; }
+}
+function renderScanList() {
+  const list = $("#scanList"); if (!list) return;
+  const n = scan.log.filter(x => !x.undone).length;
+  $("#scanTotals").textContent = scan.log.length ? `This session: ${n} restocked` : "";
+  list.innerHTML = scan.log.map((x, i) => `<div class="${x.undone ? "undone" : ""}"><span>+1 ${esc(x.name)}${x.multi ? " — " + esc(x.variant) : ""} <span class="meta">(${x.before}→${x.after})</span></span>${x.undone ? `<span class="meta">undone</span>` : `<button class="btn ghost sm" data-undo="${i}">Undo</button>`}</div>`).join("");
+}
+
+function showCard(kind, p, title, sub, raw) {
+  const c = $("#scanCard"); if (!c) return;
+  c.className = "scan-card " + kind;
+  c.innerHTML = `${p ? `<div class="thumb" style="background:${tint(p.category, allCats())}">${media(p)}</div>` : `<div style="font-size:30px">${kind === "err" ? "⚠️" : "📦"}</div>`}
+    <div style="flex:1;min-width:0"><b>${raw ? title : esc(title)}</b><div class="meta">${sub}</div></div>`;
+}
+function replaceProduct(p) { const i = products.findIndex(x => x.id === p.id); if (i >= 0) products[i] = p; }
+
+$("#scanDlg").addEventListener("click", async e => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.hasAttribute("data-sclose")) {
+    if (scan.mode === "sell" && scan.step !== "receipt" && scan.cart.length && !confirm("Close checkout? The items in the cart will be kept for later.")) return;
+    return $("#scanDlg").close();
+  }
+  if (t.dataset.smode) { scan.mode = t.dataset.smode; scan.pending = null; if (scan.step === "receipt") scan.step = "cart"; drawScanner(); return; }
+  if (t.dataset.pickv !== undefined) {
+    const pend = scan.pending; scan.pending = null; scan.seen[pend.code] = Date.now();
+    return scan.mode === "sell" ? addToCart(pend.code, t.dataset.pickv) : doRestock(pend.code, t.dataset.pickv);
+  }
+  if (t.hasAttribute("data-pickcancel")) { scan.pending = null; showCard("", null, "Cancelled", "Nothing was added."); return; }
+  if (t.dataset.cq !== undefined) {
+    const l = scan.cart[+t.dataset.cq]; if (!l) return;
+    if (+t.dataset.d > 0) {
+      const p = products.find(x => x.id === l.id);
+      if (p && p.variants[l.variant] - inCart(l.id, l.variant) <= 0) return toast(`Only ${p.variants[l.variant]} in stock`, true);
+      l.qty++;
+    } else if (--l.qty <= 0) scan.cart.splice(+t.dataset.cq, 1);
+    return renderCart();
+  }
+  if (t.hasAttribute("data-cclear")) { if (scan.cart.length && confirm("Remove all items from the cart?")) { scan.cart = []; renderCart(); } return; }
+  if (t.hasAttribute("data-ccheckout")) { if (!scan.cart.length) return toast("Scan at least one item first.", true); scan.step = "pay"; return drawScanBody(); }
+  if (t.hasAttribute("data-cback")) { scan.step = "cart"; return drawScanBody(); }
+  if (t.dataset.pay) { scan.method = t.dataset.pay; document.querySelectorAll("[data-pay]").forEach(b => b.classList.toggle("on", b === t)); $("#cashBox").classList.toggle("hidden", scan.method !== "Cash"); return; }
+  if (t.dataset.cashq) { scan.cash = t.dataset.cashq; $("#cashIn").value = scan.cash; return updateChange(); }
+  if (t.hasAttribute("data-cdone")) return completeSale(t);
+  if (t.hasAttribute("data-cnew")) { scan.step = "cart"; scan.sale = null; scan.seen = {}; return drawScanBody(); }
+  if (t.hasAttribute("data-rprint")) return printReceipt(scan.sale);
+  if (t.hasAttribute("data-rsave")) return saveReceipt(scan.sale);
+  if (t.dataset.undo !== undefined) {
+    const x = scan.log[+t.dataset.undo]; if (!x || x.undone) return;
+    t.disabled = true;
+    try {
+      const d = await api("POST", "/api/products", { action: "scan", code: x.code, delta: -1, variant: x.variant });
+      if (d.product) replaceProduct(d.product);
+      x.undone = true; renderScanList();
+      showCard("", d.product, `Undone: ${x.name}${x.multi ? " — " + x.variant : ""}`, `Back to ${d.after} in stock`);
+    } catch (err) { toast(err.message, true); t.disabled = false; }
+  }
+});
+$("#scanDlg").addEventListener("input", e => { if (e.target.id === "cashIn") { scan.cash = e.target.value; updateChange(); } });
+$("#scanDlg").addEventListener("submit", e => {
+  e.preventDefault();
+  const v = $("#manualCode").value.trim().toUpperCase(); if (!v) return;
+  $("#manualCode").value = "";
+  if (scan.busy || scan.pending) return toast("Finish the current scan first.", true);
+  if (!/^JSH[0-9A-Z]{6}$/.test(v)) return showCard("err", null, "That code doesn't look right", "Codes look like JSH7K3P9Q.");
+  scan.mode === "sell" ? addToCart(v) : doRestock(v);
+});
+$("#scanDlg").addEventListener("close", () => { stopCamera(); render(); refresh(); });
+
+/* =====================================================================
+   RECEIPTS — 57mm wide, for thermal printers or to send as a picture
+   ===================================================================== */
+let logoImg = null;
+(() => { const i = new Image(); i.onload = () => { logoImg = i; }; i.src = "/logo-sm.png"; })();
+
+function drawReceipt(sale) {
+  const W = 456, M = 36, CW = W - M * 2;   // 57mm paper, ~48mm printable
+  const c = document.createElement("canvas"), ctx = c.getContext("2d");
+  const ops = []; let y = 24;
+  const text = (s, font, align = "left", x) => { const yy = y; ops.push(() => { ctx.font = font; ctx.textAlign = align; ctx.fillText(s, x ?? (align === "center" ? W / 2 : align === "right" ? W - M : M), yy); }); };
+  const gap = h => { y += h; };
+  const rule = () => { const yy = y; ops.push(() => { ctx.setLineDash([5, 5]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(M, yy); ctx.lineTo(W - M, yy); ctx.stroke(); ctx.setLineDash([]); }); y += 18; };
+  const measure = (s, font) => { ctx.font = font; return ctx.measureText(s).width; };
+  const wrapLines = (s, font, maxW) => { ctx.font = font; const out = []; let line = ""; for (const w of String(s).split(/\s+/)) { const t = line ? line + " " + w : w; if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; } if (line) out.push(line); return out; };
+  const F = (w, s) => `${w} ${s}px ${FONT}`;
+
+  if (logoImg) { const yy = y; ops.push(() => ctx.drawImage(logoImg, W / 2 - 50, yy, 100, 100)); y += 112; }
+  gap(22); text("JeanZie String HeArts", F("bold", 25), "center");
+  gap(22); text("Handmade crochet", F("normal", 17), "center");
+  if (settings.contactText || settings.contactUrl) { gap(20); text(fitTextW(settings.contactText || settings.contactUrl.replace(/^https:\/\//, ""), F("normal", 15), CW), F("normal", 15), "center"); }
+  gap(18); rule();
+  gap(4); text(`Receipt ${sale.no}`, F("bold", 17)); text(new Date(sale.t).toLocaleDateString("en-PH"), F("normal", 17), "right");
+  gap(22); text(new Date(sale.t).toLocaleTimeString("en-PH", { hour: "numeric", minute: "2-digit" }), F("normal", 17), "right");
+  gap(10); rule();
+  for (const it of sale.items) {
+    const label = it.name + (it.multi ? ` (${it.variant})` : "");
+    for (const ln of wrapLines(label, F("bold", 18), CW)) { gap(22); text(ln, F("bold", 18)); }
+    gap(22); text(`  ${it.qty} × ${money(it.price)}`, F("normal", 17)); text(money(it.qty * it.price), F("bold", 18), "right");
+    gap(6);
+  }
+  gap(8); rule();
+  const count = sale.items.reduce((a, i) => a + i.qty, 0);
+  gap(8); text(`${count} item${count === 1 ? "" : "s"}`, F("normal", 17));
+  gap(34); text("TOTAL", F("bold", 26)); text(money(sale.total), F("bold", 30), "right");
+  if (sale.method === "Cash" && sale.cash) {
+    gap(28); text("Cash", F("normal", 18)); text(money(sale.cash), F("normal", 18), "right");
+    gap(24); text("Change", F("bold", 18)); text(money(sale.change), F("bold", 18), "right");
+  } else { gap(28); text("Paid via", F("normal", 18)); text(sale.method, F("bold", 18), "right"); }
+  gap(18); rule();
+  gap(10); text("Thank you for supporting", F("normal", 17), "center");
+  gap(22); text("handmade! ♥", F("bold", 18), "center");
+  gap(40);
+  const H = y;
+  c.width = W; c.height = H;
+  ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, W, H); ctx.fillStyle = "#000"; ctx.strokeStyle = "#000"; ctx.textBaseline = "alphabetic";
+  ops.forEach(f => f());
+  if (sale.voided) {
+    ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(-0.5); ctx.font = F("bold", 96); ctx.textAlign = "center";
+    ctx.globalAlpha = 0.25; ctx.fillText("VOID", 0, 30); ctx.restore();
+  }
+  void measure;
+  return c.toDataURL("image/png");
+}
+function fitTextW(s, font, maxW) { const c = document.createElement("canvas").getContext("2d"); c.font = font; return fitText(c, s, maxW); }
+
+async function printImages(urls, wmm, hmm) {
+  $("#printSize").textContent = `@page{size:${wmm}mm ${hmm}mm;margin:0} #printArea img{width:${wmm}mm;height:${hmm}mm}`;
+  $("#printArea").innerHTML = urls.map(u => `<img src="${u}" alt="">`).join("");
+  await Promise.all([...document.querySelectorAll("#printArea img")].map(i => i.decode().catch(() => {})));
+  window.print();
+  setTimeout(() => { $("#printArea").innerHTML = ""; }, 1000);
+}
+function printReceipt(sale) {
+  const url = drawReceipt(sale), img = new Image();
+  img.onload = () => {
+    const wasOpen = [...document.querySelectorAll("dialog[open]")];
+    wasOpen.forEach(d => d.close());
+    printImages([url], 57, Math.ceil(img.height / DPMM));
+    if (scan.step === "receipt" && wasOpen.includes($("#scanDlg"))) setTimeout(() => { $("#scanDlg").showModal(); drawScanBody(); }, 500);
+  };
+  img.src = url;
+}
+function saveReceipt(sale) {
+  const a = document.createElement("a"); a.href = drawReceipt(sale); a.download = `jeanzie-receipt-${sale.no}.png`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------- Sales list on the dashboard ---------- */
+let sales = [];
+async function loadSales() {
+  try { sales = (await api("GET", "/api/products?sales=1")).sales || []; } catch { sales = []; }
+  renderSales();
+}
+function renderSales() {
+  const box = $("#salesList"); if (!box) return;
+  const today = new Date().toDateString();
+  const todays = sales.filter(s => !s.voided && new Date(s.t).toDateString() === today);
+  $("#salesToday").textContent = `Today: ${money(todays.reduce((a, s) => a + s.total, 0))} · ${todays.length} sale${todays.length === 1 ? "" : "s"}`;
+  box.innerHTML = sales.length ? sales.slice(0, 30).map(s => {
+    const n = s.items.reduce((a, i) => a + i.qty, 0);
+    return `<button class="sale-row ${s.voided ? "undone" : ""}" data-sale="${esc(s.no)}"><span><b>${esc(s.no)}</b> <span class="meta">${new Date(s.t).toLocaleString("en-PH", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} · ${n} item${n === 1 ? "" : "s"} · ${esc(s.method)}${s.voided ? " · VOID" : ""}</span></span><b>${money(s.total)}</b></button>`;
+  }).join("") : `<p class="meta">No sales yet. Tap 📷 Scan to ring up your first sale.</p>`;
+}
+function openSale(no) {
+  const s = sales.find(x => x.no === no); if (!s) return;
+  $("#receiptDlg").innerHTML = `<div class="dlg"><button class="close" data-close aria-label="Close">×</button>
+    <h2>Receipt ${esc(s.no)}${s.voided ? " · <span style='color:var(--bad)'>VOID</span>" : ""}</h2>
+    <div class="receipt-view"><img src="${drawReceipt(s)}" alt="Receipt"></div>
+    <div class="dlg-foot">${s.voided ? "" : `<button class="btn ghost" data-void style="color:var(--bad)">Void sale</button>`}<button class="btn ghost" data-rsave>Save image</button><button class="btn" data-rprint>🖨 Print</button></div></div>`;
+  $("#receiptDlg").showModal();
+  $("#receiptDlg").onclick = async e => {
+    const t = e.target.closest("button");
+    if (e.target === $("#receiptDlg") || t?.hasAttribute("data-close")) return $("#receiptDlg").close();
+    if (t?.hasAttribute("data-rprint")) return printReceipt(s);
+    if (t?.hasAttribute("data-rsave")) return saveReceipt(s);
+    if (t?.hasAttribute("data-void")) {
+      if (!confirm(`Void ${s.no}? The ${s.items.reduce((a, i) => a + i.qty, 0)} item(s) will be put back in stock.`)) return;
+      try { await api("POST", "/api/products", { action: "voidSale", no: s.no }); $("#receiptDlg").close(); toast("Sale voided — items back in stock"); refresh(); }
+      catch (err) { toast(err.message, true); }
+    }
+  };
+}
 
 boot();
 </script>
