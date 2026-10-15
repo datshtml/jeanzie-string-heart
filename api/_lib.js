@@ -29,6 +29,8 @@ const K = {
   products: "jsh:products",
   settings: "jsh:settings",
   log: "jsh:log",
+  sales: "jsh:sales",
+  receiptNo: "jsh:receiptno",
   img: id => "jsh:img:" + id,
   fail: ip => "jsh:fail:" + ip
 };
@@ -172,6 +174,31 @@ function cleanProduct(input, existingId) {
   };
 }
 
+/* ---------------- Barcodes: one unique code per product ---------------- */
+const CODE_CHARS = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"; // no 0/O/1/I to avoid mix-ups
+const CODE_RE = /^JSH[2-9A-HJ-NP-Z]{6}$/;
+function newCode() {
+  const b = crypto.randomBytes(6);
+  let s = "JSH";
+  for (let i = 0; i < 6; i++) s += CODE_CHARS[b[i] % 32];
+  return s;
+}
+// Gives every product a code if it doesn't have one yet. Returns true if anything changed.
+function ensureCodes(products) {
+  const used = new Set();
+  let changed = false;
+  for (const p of products) {
+    if (!CODE_RE.test(p.code || "") || used.has(p.code)) { p.code = null; changed = true; }
+    else used.add(p.code);
+  }
+  for (const p of products) {
+    if (p.code) continue;
+    let c; do { c = newCode(); } while (used.has(c));
+    used.add(c); p.code = c;
+  }
+  return changed;
+}
+
 function wrap(handler) {
   return async (req, res) => {
     try { await handler(req, res); }
@@ -179,4 +206,4 @@ function wrap(handler) {
   };
 }
 
-module.exports = { redis, K, send, readBody, getQuery, clientIp, makeSessionCookie, clearSessionCookie, isAdmin, requireAdmin, passwordMatches, getProducts, saveProducts, getSettings, addLog, cleanProduct, imgId, wrap, DEFAULT_SETTINGS };
+module.exports = { redis, K, send, readBody, getQuery, clientIp, makeSessionCookie, clearSessionCookie, isAdmin, requireAdmin, passwordMatches, getProducts, saveProducts, getSettings, addLog, cleanProduct, imgId, wrap, DEFAULT_SETTINGS, ensureCodes, CODE_RE };
